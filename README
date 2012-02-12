@@ -1,0 +1,96 @@
+=Twintersect=
+
+Twintersect is a script that will compare the followings of multiple twitter users
+and return a Hash of the people that all of those users follow.
+
+==REQUIREMENTS==
+This script is written in Ruby. On my system, I am running it on:
+$ ruby -v
+ruby 1.8.7 (2011-06-30 patchlevel 352) [x86_64-linux]
+
+Anything that version or newer should be fine.
+
+===RUBY GEMS===
+require 'twitter'
+require 'json'
+require 'optparse'
+
+This script requires a few gems to run. Once you have rubygems loaded (you *probably* do, if not, check http://www.rubygems.org for info on how to install them on your system). Once you have those:
+
+* twitter
+* json
+
+Installing these gems may vary for your system (consult rubygems.org for how to do this on your system). On linux, for example, you would do:
+
+$ sudo gem install twitter
+$ sudo gem install json
+
+
+==USAGE==
+Before you can use this, you need to create a twitter_config.rb file, which holds
+a block of twitter API info. (see below)
+
+===CREATE A TWITTER_CONFIG FILE===
+If you do not already have an API key, you'll need to create one:
+https://dev.twitter.com/apps/new
+
+Once you get that set up, you'll have the info you need to create your
+config file. Create a file called "twitter_config.rb" and put it in the 
+same directory as the twintersect.rb file.
+
+# API info for Twitter
+Twitter.configure do |config|
+  config.consumer_key = ""
+  config.consumer_secret = ""
+  config.oauth_token = ""
+  config.oauth_token_secret = ""
+end
+
+===COMMAND LINE===
+At its most basic, it can be used like this:
+$ ./twintersect.rb drhorrible captnhammer
+["badhorse","johnnysnow","pinkpummeler","moist","justinbieber"]
+
+./twintersect.rb --help
+Usage: ./twintersect.rb [options] <username> <username2> ... <usernameN>
+    -v, --verbose                    Display progress to STDOUT
+    -c, --cache FILE                 Use FILE for caching ids/names
+    -o, --output FILE                Dump JSON array of results to FILE
+    -h, --help                       Display this screen
+
+The "verbose" option is useful if you are running it from the command line, since
+it will show the users that are found in real-time. The verbose output will indicate
+whether the username is being loaded from Twitter or from your cache.
+
+./twintersect.rb -v drhorrible captnhammer
+Checking 2 users...
+drhorrible: following 233 users
+captnhammer: following 302 users
+The users have 5 follows in common. Getting names...
+>-+++D -=> 11112211 : badhorse       <-- the >-+++D indicates its from cache
+}(.__) -=> 11111222 : johnnysnow     <-- the }(.__) indicates its from Twitter
+}(.__) -=> 11111333 : pinkpummeler
+>-+++D -=> 11123423 : moist
+>-+++D -=> 13523423 : justinbieber
+Common follows:
+["badhorse","johnnysnow","pinkpummeler","moist","justinbieber"]
+
+You can use the "-c" option to store the results in a different cache file, though 
+it is advisable to only use a single cache file, since it will help to minimize the
+API calls over the long run (Twitter will rate limit you).
+The cache takes the form:
+{"111111":"captainhammer","111112":"moist","111113":"badhorse","111114":"justinbieber"}
+
+The output "-o" option will allow you to store the results in a file automatically. 
+The results will take the form:
+{"Common"=>["captainhammer","moist","badhorse","justinbieber"], "Users"=>["drhorrible","johnnysnow"]}
+
+
+==FUTURE==
+I'd like to add a few more features to this suite and possibly package it as a module. I definitely want to add the googlecharts gem to do visualizations of data. The test suite needs to be fleshed out, as well.
+
+==Thanks to==
+
+With Inspiration from:
+
+http://www.ibm.com/developerworks/opensource/library/os-dataminingrubytwitter/index.html?ca=drs-
