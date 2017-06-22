@@ -1,16 +1,16 @@
-=Twintersect=
+= Twintersect =
 
 Twintersect is a script that will compare the followings of multiple twitter users
 and return a Hash of the people that all of those users follow.
 
-==REQUIREMENTS==
+== REQUIREMENTS ==
 This script is written in Ruby. On my system, I am running it on:
 $ ruby -v
 ruby 1.8.7 (2011-06-30 patchlevel 352) [x86_64-linux]
 
 Anything that version or newer should be fine.
 
-===RUBY GEMS===
+=== RUBY GEMS ===
 require 'twitter'
 require 'json'
 require 'optparse'
@@ -26,11 +26,11 @@ $ sudo gem install twitter
 $ sudo gem install json
 
 
-==USAGE==
+== USAGE ==
 Before you can use this, you need to create a twitter_config.rb file, which holds
 a block of twitter API info. (see below)
 
-===CREATE A TWITTER_CONFIG FILE===
+=== CREATE A TWITTER_CONFIG FILE ===
 If you do not already have an API key, you'll need to create one:
 https://dev.twitter.com/apps/new
 
@@ -46,7 +46,7 @@ Twitter.configure do |config|
   config.oauth_token_secret = ""
 end
 
-===COMMAND LINE===
+=== COMMAND LINE ===
 At its most basic, it can be used like this:
 $ ./twintersect.rb drhorrible captnhammer
 ["badhorse","johnnysnow","pinkpummeler","moist","justinbieber"]
@@ -86,10 +86,10 @@ The results will take the form:
 {"Common"=>["captainhammer","moist","badhorse","justinbieber"], "Users"=>["drhorrible","johnnysnow"]}
 
 
-==FUTURE==
+== FUTURE ==
 I'd like to add a few more features to this suite and possibly package it as a module. I definitely want to add the googlecharts gem to do visualizations of data. The test suite needs to be fleshed out, as well.
 
-==Thanks to==
+== Thanks to ==
 
 With Inspiration from:
 
